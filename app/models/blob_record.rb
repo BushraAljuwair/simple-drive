@@ -1,0 +1,2 @@
+class BlobRecord < ApplicationRecord
+end
