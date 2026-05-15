@@ -4,59 +4,54 @@ module Infrastructure
   module Storages
     class FtpStorage
       def save(blob)
-        ftp = Net::FTP.new
+  puts "1- connecting..."
 
-        ftp.connect(
-          "localhost",
-          21
-        )
+  ftp = Net::FTP.new
+  ftp.connect("192.168.8.165", 21)
 
-        ftp.login(
-          "anonymous",
-          ""
-        )
+  puts "2- connected"
 
+  ftp.passive = true
 
-        local_path = Rails.root.join(
-          "storage",
-          "ftp_#{blob.id}"
-        )
+  puts "3- login..."
 
-        File.write(
-          local_path,
-          blob.data
-        )
+  ftp.login("me", "1234")
 
+  puts "4- logged in"
 
-        ftp.putbinaryfile(
-          local_path,
-          blob.id
-        )
+  local_path = Rails.root.join(
+    "storage",
+    "ftp_#{blob.id}"
+  )
 
-        ftp.close
-      end
+  File.write(
+    local_path,
+    blob.data
+  )
 
+  puts "5- uploading..."
+
+  ftp.putbinaryfile(
+    local_path,
+    blob.id
+  )
+
+  puts "6- uploaded"
+
+  ftp.close
+end
 
 
       def find(id)
         ftp = Net::FTP.new
 
-        ftp.connect(
-          "localhost",
-          21
-        )
-
-        ftp.login(
-          "anonymous",
-          ""
-        )
-
+        ftp.connect("192.168.8.165", 21)
+        ftp.login("me", "1234")
 
         local_path = Rails.root.join(
           "storage",
           "ftp_#{id}"
         )
-
 
         ftp.getbinaryfile(
           id,
@@ -65,10 +60,7 @@ module Infrastructure
 
         ftp.close
 
-
-        File.read(
-          local_path
-        )
+        File.read(local_path)
       end
     end
   end

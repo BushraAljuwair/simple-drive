@@ -19,7 +19,8 @@ def create
     created_at: Time.now.utc
   )
 
-  storage = Infrastructure::Storages::FtpStorage.new
+  # storage = Infrastructure::Storages::FtpStorage.new
+  storage=Infrastructure::Storages::S3Storage.new
   repository = Infrastructure::Repositories::BlobRepositoryImpl.new(storage)
   use_case = Domain::UseCases::StoreBlob.new(repository)
 
@@ -40,7 +41,8 @@ rescue => e
 end
 
   def show
-    storage = Infrastructure::Storages::FtpStorage.new
+     # storage = Infrastructure::Storages::FtpStorage.new
+     storage = Infrastructure::Storages::S3Storage.new
     repository = Infrastructure::Repositories::BlobRepositoryImpl.new(storage)
     use_case = Domain::UseCases::GetBlob.new(repository)
 
