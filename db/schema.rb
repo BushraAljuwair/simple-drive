@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_15_130921) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_15_134649) do
+  create_table "blob_data", force: :cascade do |t|
+    t.string "blob_id"
+    t.datetime "created_at", null: false
+    t.text "data"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "blob_records", force: :cascade do |t|
     t.string "blob_id"
     t.datetime "created_at", null: false
